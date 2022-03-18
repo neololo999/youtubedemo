@@ -1,6 +1,7 @@
 package com.example.youtubedemo.adapter;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,6 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.youtubedemo.ActivityVideoDetail;
 import com.example.youtubedemo.R;
 import com.example.youtubedemo.models.Thumbnails;
 import com.example.youtubedemo.models.TypeThumbnail;
@@ -18,6 +20,7 @@ import com.example.youtubedemo.models.Video;
 
 import org.w3c.dom.Text;
 
+import java.security.AccessControlContext;
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -72,7 +75,13 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.VideoAdapter
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-
+                    Video video = videoList.get(getAdapterPosition());
+                    Intent intent  = new Intent(context, ActivityVideoDetail.class);
+                    intent.putExtra("videoId",video.contentDetails.videoId);
+                    intent.putExtra("videoTitle",video.snippet.title);
+                    intent.putExtra("videoDesc",video.snippet.description);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    context.startActivity(intent);
                 }
             });
         }

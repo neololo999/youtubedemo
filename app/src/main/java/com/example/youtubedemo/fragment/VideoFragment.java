@@ -20,6 +20,7 @@ import com.example.youtubedemo.models.ResponseVideo;
 import com.example.youtubedemo.models.Video;
 import com.example.youtubedemo.retrofit.ApiClient;
 import com.example.youtubedemo.retrofit.ApiInterface;
+import com.example.youtubedemo.util.Constant;
 
 import org.json.JSONObject;
 
@@ -33,8 +34,7 @@ import retrofit2.Response;
 
 public class VideoFragment extends Fragment {
 
-    private static final String PLAYLIST_ID = "PLGmPGq178FstD1trKDpAvkZJdSnUM_j14";
-    private static final String API_KEY = "AIzaSyANBOXacR-kuPXHjtoCqqgpbE-yddFHs-8";
+
     
     @BindView(R.id.recyclerViewVideo) RecyclerView recyclerView;
     @BindView(R.id.progressbarVideo)  ProgressBar progressBar;
@@ -67,11 +67,11 @@ public class VideoFragment extends Fragment {
 
     private void getVideos() {
         apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-        Call<ResponseVideo> callVideos = apiInterface.getAllVideos(10,PLAYLIST_ID,API_KEY);
+        Call<ResponseVideo> callVideos = apiInterface.getAllVideos(10, Constant.PLAYLIST_ID,Constant.API_KEY);
         callVideos.enqueue(new Callback<ResponseVideo>() {
             @Override
             public void onResponse(Call<ResponseVideo> call, Response<ResponseVideo> response) {
-                Log.d("YOUYOU","respose "+response.body());
+
                 ResponseVideo responseVideos = response.body();
                 if (responseVideos!=null){
                     progressBar.setVisibility(View.GONE);
