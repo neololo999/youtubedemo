@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="videos"
+        android:icon="@mipmap/ic_launcher"
+        android:id="@+id/videoId">
+
+    </item>
+
+    <item android:title="playlist"
+        android:icon="@mipmap/ic_launcher"
+        android:id="@+id/playlistId">
+
+    </item>
+
+</menu>
