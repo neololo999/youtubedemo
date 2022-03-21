@@ -9,7 +9,9 @@
     <androidx.appcompat.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"></androidx.appcompat.widget.Toolbar>
+        android:layout_height="wrap_content"
+        android:background="@color/kurio_blue"
+        app:titleTextColor="@color/white"></androidx.appcompat.widget.Toolbar>
 
     <androidx.viewpager.widget.ViewPager
         android:id="@+id/viewpager"
@@ -25,9 +27,10 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:background="@color/purple_200"
-        app:menu="@menu/menu_bottom"
-        app:itemIconTint="@color/white">
+        android:background="@color/kurio_blue"
+        app:itemIconTint="@color/white"
+        app:itemTextColor="@color/white"
+        app:menu="@menu/menu_bottom">
 
     </com.google.android.material.bottomnavigation.BottomNavigationView>
 

@@ -15,7 +15,7 @@ public class AdaperViewPager extends FragmentPagerAdapter {
     private final List<Fragment> fragmentList;
 
     public AdaperViewPager(@NonNull FragmentManager fm,List<Fragment> fragmentList) {
-        super(fm);
+        super(fm,BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         this.fragmentList = fragmentList;
         fragmentTitleList.add("Videos");
         fragmentTitleList.add("PlayList");

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.example.youtubedemo.util.Constant;
 import com.google.android.youtube.player.YouTubeInitializationResult;
@@ -13,12 +14,9 @@ import com.google.android.youtube.player.YouTubePlayerSupportFragmentX;
 
 public class FragmentVideoPlayer extends YouTubePlayerSupportFragmentX implements YouTubePlayer.OnInitializedListener {
 
-    OnVideoPlayListener onVideoPlayListener;
-    public interface OnVideoPlayListener{
-        void onPlaying(String videoId);
-    }
 
     String videoId;
+    private static final int RECOVERY_DIALOG_REQUEST = 1;
 
     @Override
     public void onCreate(Bundle bundle) {
@@ -26,10 +24,7 @@ public class FragmentVideoPlayer extends YouTubePlayerSupportFragmentX implement
         Bundle arguments = getArguments();
         if (bundle!=null && bundle.containsKey("KEY_VIDEO_ID")){
             videoId = bundle.getString("KEY_VIDEO_ID");
-        }else{
-            videoId = arguments.getString("KEY_VIDEO_ID");
         }
-
         initialize(Constant.API_KEY,this);
 
     }
@@ -41,24 +36,24 @@ public class FragmentVideoPlayer extends YouTubePlayerSupportFragmentX implement
     }
 
     @Override
-    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean b) {
+    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean wasRestored) {
         if (videoId!=null){
-            if (b){
+            if (wasRestored){
                 youTubePlayer.play();
             }else{
                 youTubePlayer.loadVideo(videoId);
-            }
-            if (onVideoPlayListener!=null){
-                onVideoPlayListener.onPlaying(videoId);
             }
         }
 
     }
 
     @Override
-    public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult youTubeInitializationResult) {
-        if (youTubeInitializationResult.isUserRecoverableError()){
-            youTubeInitializationResult.getErrorDialog(getActivity(),1).show();
+    public void onInitializationFailure(YouTubePlayer.Provider provider, YouTubeInitializationResult errorReason) {
+        if (errorReason.isUserRecoverableError()) {
+            errorReason.getErrorDialog(getActivity(), RECOVERY_DIALOG_REQUEST).show();
+        } else {
+            String errorMessage = String.format("There was an error initializing the YouTubePlayer (%1$s)", errorReason.toString());
+            Toast.makeText(getActivity(), errorMessage, Toast.LENGTH_LONG).show();
         }
 
     }
@@ -68,4 +63,6 @@ public class FragmentVideoPlayer extends YouTubePlayerSupportFragmentX implement
         super.onSaveInstanceState(bundle);
         bundle.putString("KEY_VIDEO_ID",videoId);
     }
+
+
 }

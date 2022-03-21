@@ -13,6 +13,7 @@ import com.example.youtubedemo.adapter.AdaperViewPager;
 import com.example.youtubedemo.fragment.PlayListFragment;
 import com.example.youtubedemo.fragment.VideoFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -45,13 +46,13 @@ public class MainActivity extends AppCompatActivity {
 
         fragmentList.clear();
         fragmentList.add(videoFragment);
-      //  fragmentList.add(playListFragment);
+        fragmentList.add(playListFragment);
 
         viewpager.setOffscreenPageLimit(2);
         adapter = new AdaperViewPager(getSupportFragmentManager(),fragmentList);
         viewpager.setAdapter(adapter);
 
-        viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+      /*  viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -72,20 +73,20 @@ public class MainActivity extends AppCompatActivity {
             public void onPageScrollStateChanged(int state) {
 
             }
-        });
+        });*/
 
-        btnView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
+        btnView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 switch (item.getItemId()){
                     case R.id.videoId:
                         viewpager.setCurrentItem(0);
-                        getSupportActionBar().setTitle("Videos");
+                        getSupportActionBar().setTitle("Single Songs");
                         break;
 
                     case R.id.playlistId:
-                        viewpager.setCurrentItem(0);
-                        getSupportActionBar().setTitle("PlayList");
+                        viewpager.setCurrentItem(1);
+                        getSupportActionBar().setTitle("Multi-song Collections");
                         break;
 
                 }

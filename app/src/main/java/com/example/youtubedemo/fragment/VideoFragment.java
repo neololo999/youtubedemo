@@ -56,7 +56,11 @@ public class VideoFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         ButterKnife.bind(this,view);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
+        LinearLayoutManager layoutManager
+                = new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL, false);
+
+        recyclerView.setLayoutManager(layoutManager);
         videoList = new ArrayList<>();
         videoAdapter = new VideoAdapter(getContext(),videoList);
         recyclerView.setAdapter(videoAdapter);
@@ -67,7 +71,7 @@ public class VideoFragment extends Fragment {
 
     private void getVideos() {
         apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-        Call<ResponseVideo> callVideos = apiInterface.getAllVideos(10, Constant.PLAYLIST_ID,Constant.API_KEY);
+        Call<ResponseVideo> callVideos = apiInterface.getAllVideos(70, Constant.PLAYLIST_ID_VIDEO_SINGLE,Constant.API_KEY);
         callVideos.enqueue(new Callback<ResponseVideo>() {
             @Override
             public void onResponse(Call<ResponseVideo> call, Response<ResponseVideo> response) {

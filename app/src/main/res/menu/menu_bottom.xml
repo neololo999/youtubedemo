@@ -1,12 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:title="videos"
+    <item android:title="Single Songs"
         android:icon="@mipmap/ic_launcher"
         android:id="@+id/videoId">
 
     </item>
 
-    <item android:title="playlist"
+    <item android:title="Multi-song Collections"
         android:icon="@mipmap/ic_launcher"
         android:id="@+id/playlistId">
 

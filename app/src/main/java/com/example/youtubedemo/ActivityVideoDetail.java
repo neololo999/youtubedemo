@@ -1,27 +1,21 @@
 package com.example.youtubedemo;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentContainerView;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.widget.TextView;
 
 import com.example.youtubedemo.fragment.FragmentVideoPlayer;
 import com.google.android.youtube.player.YouTubeApiServiceUtil;
 import com.google.android.youtube.player.YouTubeInitializationResult;
-import com.google.android.youtube.player.YouTubePlayerFragment;
 
-import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class ActivityVideoDetail extends AppCompatActivity {
 
-    @BindView(R.id.toolbar)  Toolbar toolbar;
-    @BindView(R.id.tv_title) TextView textViewTitle;
-    @BindView(R.id.tv_desc) TextView textViewDesc;
+  //  @BindView(R.id.toolbar)  Toolbar toolbar;
+  //  @BindView(R.id.tv_title) TextView textViewTitle;
+  //  @BindView(R.id.tv_desc) TextView textViewDesc;
 
     String videoId,title,desc;
 
@@ -30,14 +24,11 @@ public class ActivityVideoDetail extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_video_detail);
         ButterKnife.bind(this);
-        getData();
-        playVideo();
 
+        Intent intent = getIntent();
+        videoId = intent.getStringExtra("videoId");
 
-    }
-
-    private void playVideo() {
-        final YouTubeInitializationResult result = YouTubeApiServiceUtil.isYouTubeApiServiceAvailable(this);
+        YouTubeInitializationResult result = YouTubeApiServiceUtil.isYouTubeApiServiceAvailable(this);
         if (result!=YouTubeInitializationResult.SUCCESS){
             result.getErrorDialog(this,0).show();
         }
@@ -46,16 +37,24 @@ public class ActivityVideoDetail extends AppCompatActivity {
 
     }
 
-    private void getData() {
-        Intent intent = getIntent();
-        videoId = intent.getStringExtra("videoId");
-        title = intent.getStringExtra("videoTitle");
-        desc = intent.getStringExtra("videoDesc");
-
-        textViewTitle.setText(title);
-        textViewDesc.setText(desc);
-        toolbar.setTitle(title);
-        setSupportActionBar(toolbar);
-
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == 1) {
+            // Retry initialization if user performed a recovery action
+            //  getYouTubePlayerProvider().initialize(DeveloperKey.DEVELOPER_KEY, this);
+        }
     }
+
+ /*   @Override
+    protected YouTubePlayer.Provider getYouTubePlayerProvider() {
+        return (YouTubePlayerSupportFragmentX) getSupportFragmentManager().findFragmentById(R.id.fragment_youtube);
+    }
+
+    @Override
+    public void onInitializationSuccess(YouTubePlayer.Provider provider, YouTubePlayer youTubePlayer, boolean wasRestored) {
+        if (!wasRestored) {
+            youTubePlayer.cueVideo(videoId);
+        }
+    }*/
 }
