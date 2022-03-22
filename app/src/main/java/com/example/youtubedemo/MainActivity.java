@@ -7,11 +7,12 @@ import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 
 import com.example.youtubedemo.adapter.AdaperViewPager;
-import com.example.youtubedemo.fragment.PlayListFragment;
 import com.example.youtubedemo.fragment.VideoFragment;
+import com.example.youtubedemo.util.Constant;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 
@@ -29,10 +30,12 @@ public class MainActivity extends AppCompatActivity {
     ViewPager viewpager;
     @BindView(R.id.bottomNav) BottomNavigationView btnView;
 
-    private List<Fragment> fragmentList =  new ArrayList<>();
+    private List<VideoFragment> fragmentList =  new ArrayList<>();
     AdaperViewPager adapter;
-    VideoFragment videoFragment;
-    PlayListFragment playListFragment;
+    VideoFragment videoFragmentKurio;
+    VideoFragment videoFragmentKurioMultiSong;
+    VideoFragment videoFragmentSesam;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,18 +44,27 @@ public class MainActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         setSupportActionBar(toolbar);
-        videoFragment = new VideoFragment();
-        playListFragment = new PlayListFragment();
+        videoFragmentKurio = new VideoFragment("Kurio Songs",Constant.PLAYLIST_ID_VIDEO_SINGLE_KURIO,30);
+        videoFragmentKurioMultiSong = new VideoFragment("Kurio Muti-Song",Constant.PLAYLIST_ID_MULTI_SONG_KURIO,30);
+        videoFragmentSesam = new VideoFragment("Sesam Street songs",Constant.PLAYLIST_ID_SONG_SESAM,30);
+
 
         fragmentList.clear();
-        fragmentList.add(videoFragment);
-        fragmentList.add(playListFragment);
+        fragmentList.add(videoFragmentKurio);
+        fragmentList.add(videoFragmentKurioMultiSong);
+        fragmentList.add(videoFragmentSesam);
+
+        for (int i=0;i<fragmentList.size();i++) {
+            btnView.getMenu().add(Menu.NONE,i , Menu.NONE, fragmentList.get(i).getName()).setIcon(R.mipmap.ic_launcher);
+        }
+
 
         viewpager.setOffscreenPageLimit(2);
         adapter = new AdaperViewPager(getSupportFragmentManager(),fragmentList);
         viewpager.setAdapter(adapter);
 
-      /*  viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
+        viewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 
@@ -61,11 +73,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onPageSelected(int position) {
                 btnView.getMenu().getItem(position).setChecked(true);
-                if (position ==0){
-                    getSupportActionBar().setTitle("Videos");
-                }else if (position ==1){
-                    getSupportActionBar().setTitle("Playlist");
-                }
+                getSupportActionBar().setTitle(viewpager.getAdapter().getPageTitle(position));
 
             }
 
@@ -73,23 +81,12 @@ public class MainActivity extends AppCompatActivity {
             public void onPageScrollStateChanged(int state) {
 
             }
-        });*/
+        });
 
         btnView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                switch (item.getItemId()){
-                    case R.id.videoId:
-                        viewpager.setCurrentItem(0);
-                        getSupportActionBar().setTitle("Single Songs");
-                        break;
-
-                    case R.id.playlistId:
-                        viewpager.setCurrentItem(1);
-                        getSupportActionBar().setTitle("Multi-song Collections");
-                        break;
-
-                }
+                viewpager.setCurrentItem(item.getItemId());
                 return true;
             }
         });

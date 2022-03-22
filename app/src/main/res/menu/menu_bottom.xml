@@ -2,14 +2,18 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item android:title="Single Songs"
         android:icon="@mipmap/ic_launcher"
-        android:id="@+id/videoId">
+        android:id="@+id/videoKurio1">
 
     </item>
 
     <item android:title="Multi-song Collections"
         android:icon="@mipmap/ic_launcher"
-        android:id="@+id/playlistId">
+        android:id="@+id/videoKurio2">
+    </item>
 
+    <item android:title="Sesam Street Song"
+        android:icon="@mipmap/ic_launcher"
+        android:id="@+id/videoSesam">
     </item>
 
 </menu>

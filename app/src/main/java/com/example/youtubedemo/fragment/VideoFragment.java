@@ -42,6 +42,15 @@ public class VideoFragment extends Fragment {
     VideoAdapter videoAdapter;
     ArrayList<Video> videoList;
     ApiInterface apiInterface;
+    String playListId;
+    private int maxResult;
+    String name;
+
+    public VideoFragment(String name, String playListId, int maxResult) {
+        this.name = name;
+        this.playListId = playListId;
+        this.maxResult= maxResult;
+    }
 
 
     @Nullable
@@ -71,7 +80,7 @@ public class VideoFragment extends Fragment {
 
     private void getVideos() {
         apiInterface = ApiClient.getApiClient().create(ApiInterface.class);
-        Call<ResponseVideo> callVideos = apiInterface.getAllVideos(70, Constant.PLAYLIST_ID_VIDEO_SINGLE,Constant.API_KEY);
+        Call<ResponseVideo> callVideos = apiInterface.getAllVideos(maxResult, playListId,Constant.API_KEY);
         callVideos.enqueue(new Callback<ResponseVideo>() {
             @Override
             public void onResponse(Call<ResponseVideo> call, Response<ResponseVideo> response) {
@@ -101,5 +110,9 @@ public class VideoFragment extends Fragment {
 
             }
         });
+    }
+
+    public String getName() {
+        return name;
     }
 }
